@@ -7,11 +7,11 @@ const Layout: FC = ({ children }) => {
   return (
     <>
       <Header />
-      <Grid container spacing={2} marginX={2} marginTop={2}>
-        <Grid item xs={6} md={2}>
+      <Grid container spacing={2} paddingX={2} marginTop={2}>
+        <Grid item xs={6} md={3}>
           <Sidebar />
         </Grid>
-        <Grid item xs={6} md={10}>
+        <Grid item xs={6} md={9}>
           {children}
         </Grid>
       </Grid>
