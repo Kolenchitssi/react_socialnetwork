@@ -1,4 +1,6 @@
-export const initialPosts = [
+import { IPost } from "../../../types";
+
+export const initialPosts: IPost[] = [
   {
     author: {
       _id: "3232",

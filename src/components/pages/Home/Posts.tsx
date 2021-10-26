@@ -12,7 +12,15 @@ const Posts: FC<IPosts> = ({ posts }) => {
     <>
       {" "}
       {posts.map((post) => (
-        <Box sx={{ border: "2px solid #ccc", borderRadius: "10px" }}>
+        <Box
+          sx={{
+            border: "2px solid #ccc",
+            borderRadius: "10px",
+            padding: 2,
+            marginTop: 4,
+          }}
+          key={post.createdAt}
+        >
           <Link
             key={post.author._id}
             to={`/profile/${post.author._id}`}
@@ -40,17 +48,16 @@ const Posts: FC<IPosts> = ({ posts }) => {
               />
             </Box>
             <div>
-              <span style={{ fontSize: 14 }}> {post.author.name}</span>
+              <div style={{ fontSize: 14 }}> {post.author.name}</div>
 
-              <span style={{ fontSize: 10, opacity: "0.6" }}>
-                {"  |  "}
+              <div style={{ fontSize: 10, opacity: "0.6" }}>
                 {post.createdAt}
-              </span>
+              </div>
             </div>
           </Link>
           <p>{post.content}</p>
           {post.images?.length && (
-            <ImageList variant="masonry" cols={3} gap={8}>
+            <ImageList variant="quilted" cols={3} gap={8}>
               {post.images.map((image) => (
                 <ImageListItem key={image}>
                   <img src={image} alt={""} loading="lazy" />
@@ -60,7 +67,6 @@ const Posts: FC<IPosts> = ({ posts }) => {
           )}
         </Box>
       ))}
-      ;
     </>
   );
 };
