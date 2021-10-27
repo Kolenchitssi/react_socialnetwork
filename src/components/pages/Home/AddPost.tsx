@@ -22,6 +22,9 @@ const AddPost: FC<IAddPost> = ({ setPosts }) => {
       ]);
       setContent("");
     }
+    if (e.key === "Escape") {
+      setContent("");
+    }
   };
   return (
     <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
@@ -32,7 +35,7 @@ const AddPost: FC<IAddPost> = ({ setPosts }) => {
         margin="none"
         sx={{ width: "100%" }}
         inputProps={{ sx: { borderRadius: "5px", bgcolor: "#f9f9f9" } }}
-        onKeyPress={addPostHandler}
+        onKeyDown={addPostHandler}
         onChange={(e) => setContent(e.target.value)}
         value={content}
       />
