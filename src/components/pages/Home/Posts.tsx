@@ -1,13 +1,32 @@
 import { Avatar, ImageList, ImageListItem } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IPost } from "../../../types";
+import useAuth from "../../providers/useAuth";
+import { collection, getDocs, onSnapshot, doc } from "firebase/firestore";
+import { initialPosts } from "./initialPosts";
 
 interface IPosts {
   posts: IPost[];
 }
-const Posts: FC<IPosts> = ({ posts }) => {
+
+const Posts: FC = () => {
+  const { db } = useAuth();
+  const [error, setError] = useState("");
+  const [posts, setPosts] = useState<IPost[]>(initialPosts);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "posts"), (doc) => {
+      doc.forEach((d: any) => {
+        setPosts((prev) => [...prev, d.data()]);
+      });
+    });
+    return () => {
+      unsub();
+    };
+  }, []);
+
   return (
     <>
       {" "}
