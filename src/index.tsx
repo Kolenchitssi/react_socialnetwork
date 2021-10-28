@@ -8,6 +8,7 @@ import "./index.css";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
+import { AuthProvider } from "./components/providers/AuthProvider";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,7 +30,9 @@ const analytics = getAnalytics(app);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Routes />
+    <AuthProvider>
+      <Routes />
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

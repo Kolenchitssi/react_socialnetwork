@@ -1,17 +1,21 @@
 import { Grid } from "@mui/material";
 import React, { FC } from "react";
+import useAuth from "../providers/useAuth";
 import Header from "./header/Header";
 import Sidebar from "./sidebar/Sidebar";
 
 const Layout: FC = ({ children }) => {
+  const { user } = useAuth();
   return (
     <>
       <Header />
       <Grid container spacing={2} paddingX={2} marginTop={2}>
-        <Grid item xs={6} md={3}>
-          <Sidebar />
-        </Grid>
-        <Grid item xs={6} md={9}>
+        {user && (
+          <Grid item md={3}>
+            <Sidebar />
+          </Grid>
+        )}
+        <Grid item md={user ? 9 : 12}>
           {children}
         </Grid>
       </Grid>

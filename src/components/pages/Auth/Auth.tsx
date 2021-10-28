@@ -1,13 +1,15 @@
 import { Alert, Button, ButtonGroup, Grid, TextField } from "@mui/material";
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import { IUserData } from "./types";
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import useAuth from "../../providers/useAuth";
+import { useHistory } from "react-router";
 
 const Auth: FC = () => {
+  const { ga, user } = useAuth(); //ga-getAuth
   const [isRegForm, setIsRegForm] = useState(false);
 
   const [userData, setUserData] = useState<IUserData>({
@@ -18,11 +20,11 @@ const Auth: FC = () => {
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const auth = getAuth();
+    // const auth = getAuth();
     if (isRegForm) {
       try {
         const user = await createUserWithEmailAndPassword(
-          auth,
+          ga,
           userData.email,
           userData.password
         );
@@ -30,23 +32,10 @@ const Auth: FC = () => {
       } catch (error: any) {
         setError(error.message);
       }
-      //2й вариант
-      // createUserWithEmailAndPassword(auth, userData.email, userData.password)
-      //   .then((userCredential) => {
-      //     // Signed in
-      //     const user = userCredential.user;
-      //     // ...
-      //   })
-      //   .catch((error) => {
-      //     // const errorCode = error.code;
-      //     const errorMessage = error.message;
-      //     setError(errorMessage);
-      //     // ..
-      //   });
     } else {
       try {
         const user = await signInWithEmailAndPassword(
-          auth,
+          ga,
           userData.email,
           userData.password
         );
@@ -55,12 +44,21 @@ const Auth: FC = () => {
         setError(error.message);
       }
     }
-    console.log(userData.email, userData.password);
+
     setUserData({
       email: "",
       password: "",
     });
   };
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user) {
+      history.push("/");
+    }
+  }, [user]);
+
   return (
     <>
       {error && (
