@@ -8,7 +8,6 @@ import { routes } from "./list";
 
 const Routes: FC = () => {
   const { user } = useAuth();
-  console.log(!user, routes);
 
   return (
     <BrowserRouter>

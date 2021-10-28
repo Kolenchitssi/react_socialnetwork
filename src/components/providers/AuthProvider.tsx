@@ -22,7 +22,7 @@ export const AuthProvider: FC = ({ children }) => {
         setUser({
           _id: authUser.uid,
           avatar: users[0].avatar,
-          name: authUser?.displayName || "",
+          name: authUser.displayName || "",
         });
       } else {
         setUser(null);

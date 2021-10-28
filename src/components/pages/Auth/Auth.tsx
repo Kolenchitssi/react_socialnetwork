@@ -4,6 +4,7 @@ import { IUserData } from "./types";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import useAuth from "../../providers/useAuth";
 import { useHistory } from "react-router";
@@ -15,6 +16,7 @@ const Auth: FC = () => {
   const [userData, setUserData] = useState<IUserData>({
     email: "",
     password: "",
+    name: "",
   } as IUserData);
   const [error, setError] = useState("");
 
@@ -28,6 +30,9 @@ const Auth: FC = () => {
           userData.email,
           userData.password
         );
+        await updateProfile(user.user, {
+          displayName: userData.name,
+        });
         console.log(user);
       } catch (error: any) {
         setError(error.message);
@@ -48,6 +53,7 @@ const Auth: FC = () => {
     setUserData({
       email: "",
       password: "",
+      name: "",
     });
   };
 
@@ -68,6 +74,18 @@ const Auth: FC = () => {
       )}
       <Grid display="flex" justifyContent="center" alignItems="center">
         <form onSubmit={handleLogin}>
+          <TextField
+            type="text"
+            id="nameId"
+            label="Name"
+            variant="outlined"
+            value={userData.name}
+            onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+            sx={{
+              display: "block",
+              marginBottom: "12px ",
+            }}
+          />
           <TextField
             type="email"
             id="emailId"
