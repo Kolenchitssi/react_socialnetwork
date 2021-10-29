@@ -6,6 +6,7 @@ import { IPost } from "../../../types";
 import useAuth from "../../providers/useAuth";
 import { collection, getDocs, onSnapshot, doc } from "firebase/firestore";
 import { initialPosts } from "./initialPosts";
+import Card from "../../Ui/Card";
 
 interface IPosts {
   posts: IPost[];
@@ -16,11 +17,14 @@ const Posts: FC = () => {
   const [error, setError] = useState("");
   const [posts, setPosts] = useState<IPost[]>(initialPosts);
 
+  //! Чтение и отображение постов из БД
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "posts"), (doc) => {
+      const arrPosts: IPost[] = initialPosts;
       doc.forEach((d: any) => {
-        setPosts((prev) => [...prev, d.data()]);
+        arrPosts.unshift(d.data());
       });
+      setPosts(arrPosts);
     });
     return () => {
       unsub();
@@ -30,16 +34,8 @@ const Posts: FC = () => {
   return (
     <>
       {" "}
-      {posts.map((post) => (
-        <Box
-          sx={{
-            border: "2px solid #ccc",
-            borderRadius: "10px",
-            padding: 2,
-            marginTop: 4,
-          }}
-          key={post.createdAt}
-        >
+      {posts.map((post, index) => (
+        <Card key={post.createdAt + index}>
           <Link
             key={post.author._id}
             to={`/profile/${post.author._id}`}
@@ -84,7 +80,7 @@ const Posts: FC = () => {
               ))}
             </ImageList>
           )}
-        </Box>
+        </Card>
       ))}
     </>
   );

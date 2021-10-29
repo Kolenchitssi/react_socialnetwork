@@ -28,8 +28,8 @@ const Menu: FC = () => {
       }}
     >
       <List>
-        {menu.map((item) => (
-          <ListItem key={item.link} disablePadding>
+        {menu.map((item, index) => (
+          <ListItem key={item.link + index} disablePadding>
             <ListItemButton onClick={() => history.push(item.link)}>
               <ListItemIcon sx={{ minWidth: 36 }}>
                 <item.icon />
