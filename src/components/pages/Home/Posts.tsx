@@ -22,8 +22,9 @@ const Posts: FC = () => {
     const unsub = onSnapshot(collection(db, "posts"), (doc) => {
       const arrPosts: IPost[] = initialPosts;
       doc.forEach((d: any) => {
-        arrPosts.unshift(d.data());
+        arrPosts.push(d.data());
       });
+
       setPosts(arrPosts);
     });
     return () => {
@@ -33,7 +34,6 @@ const Posts: FC = () => {
 
   return (
     <>
-      {" "}
       {posts.map((post, index) => (
         <Card key={post.createdAt + index}>
           <Link

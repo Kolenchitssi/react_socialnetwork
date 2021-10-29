@@ -33,6 +33,7 @@ const Messages: FC = () => {
       doc.forEach((d: any) => {
         arrMessage.push(d.data());
       });
+      // const arrMessageReverse = arrMessage.reverse();
       setMessages(arrMessage);
     });
     return () => {
@@ -67,8 +68,6 @@ const Messages: FC = () => {
         <Grid item xs={12}>
           <List className={css.messageArea} sx={{ overflowY: "auto" }}>
             {messages.map((msg, index) => {
-              console.log(messages);
-
               let classItem;
               if (msg.user._id === user?._id) {
                 classItem = css.myMessage;
